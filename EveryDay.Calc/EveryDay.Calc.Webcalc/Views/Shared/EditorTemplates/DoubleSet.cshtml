@@ -1,0 +1,8 @@
+﻿@model double[]
+@{
+    ViewBag.Title = "DoubleSet";
+    var str = Model != null ? string.Join(" ", Model) : "";
+}
+
+<input type="text" name="Inputs" value="@(str)" />
+

@@ -1,0 +1,12 @@
+﻿@model EveryDay.Calc.Web.Models.IndexModel
+@{
+    ViewBag.Title = "IndexM";
+}
+
+<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Message</h3>
+
+
+<p>Use this area to provide @(Model.Date.ToShortDateString()) additional information.</p>
+
+@Html.Partial("PartView")

@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveryDay.Calc.Console", "EveryDay.Calc.Console\EveryDay.Calc.Console.csproj", "{9562DD3B-6B78-4128-A8DF-93542B002BBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveryDay.Calc.Calculation", "Calculation\EveryDay.Calc.Calculation.csproj", "{77A85AF7-8E5A-4A6B-9C13-1895A00EAE6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveryDay.Calc.AppCalc", "EveryDay.Calc.AppCalc\EveryDay.Calc.AppCalc.csproj", "{69FBD6E7-2870-4D6C-9798-3DC1D05FA232}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveryDay.Calc.Web", "EveryDay.Calc.Web\EveryDay.Calc.Web.csproj", "{A933BCA4-72C3-4C81-BB68-BF1CFB8E69B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveryDay.Calc.Webcalc", "EveryDay.Calc.Webcalc\EveryDay.Calc.Webcalc.csproj", "{D26F4231-9B69-4C23-AFB8-E2F187A86F91}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9562DD3B-6B78-4128-A8DF-93542B002BBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9562DD3B-6B78-4128-A8DF-93542B002BBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9562DD3B-6B78-4128-A8DF-93542B002BBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9562DD3B-6B78-4128-A8DF-93542B002BBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77A85AF7-8E5A-4A6B-9C13-1895A00EAE6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77A85AF7-8E5A-4A6B-9C13-1895A00EAE6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77A85AF7-8E5A-4A6B-9C13-1895A00EAE6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77A85AF7-8E5A-4A6B-9C13-1895A00EAE6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69FBD6E7-2870-4D6C-9798-3DC1D05FA232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69FBD6E7-2870-4D6C-9798-3DC1D05FA232}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69FBD6E7-2870-4D6C-9798-3DC1D05FA232}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69FBD6E7-2870-4D6C-9798-3DC1D05FA232}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A933BCA4-72C3-4C81-BB68-BF1CFB8E69B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A933BCA4-72C3-4C81-BB68-BF1CFB8E69B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A933BCA4-72C3-4C81-BB68-BF1CFB8E69B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A933BCA4-72C3-4C81-BB68-BF1CFB8E69B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D26F4231-9B69-4C23-AFB8-E2F187A86F91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D26F4231-9B69-4C23-AFB8-E2F187A86F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D26F4231-9B69-4C23-AFB8-E2F187A86F91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D26F4231-9B69-4C23-AFB8-E2F187A86F91}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
