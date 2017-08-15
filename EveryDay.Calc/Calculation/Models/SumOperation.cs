@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Threading;
 
 namespace EveryDay.Calc.Calculation.Models
 {
@@ -16,6 +18,7 @@ namespace EveryDay.Calc.Calculation.Models
 
         public override double? GetResult()
         {
+            Thread.Sleep(new Random().Next(0, 100) * 100);
             return Input.Sum();
         }
     }

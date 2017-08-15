@@ -9,6 +9,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using EveryDay.Calc.Webcalc.Models;
+using EveryDay.Calc.Webcalc.Repository;
+using System.Web.Security;
+using EveryDay.Calc.Webcalc.EntitiF;
 
 namespace EveryDay.Calc.Webcalc.Controllers
 {
@@ -17,15 +20,17 @@ namespace EveryDay.Calc.Webcalc.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private EFUserRepository userRepository;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, EFUserRepository userRepository)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            this.userRepository = userRepository;
         }
 
         public ApplicationSignInManager SignInManager
@@ -66,29 +71,19 @@ namespace EveryDay.Calc.Webcalc.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            if (userRepository.Check(model.Email, model.Password))
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                FormsAuthentication.SetAuthCookie(model.Email, true);
+                return RedirectToAction("Index", "Calc");
             }
+            return View(model);
         }
 
         //
@@ -391,7 +386,7 @@ namespace EveryDay.Calc.Webcalc.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
 

@@ -1,5 +1,7 @@
 ﻿using EveryDay.Calc.Calculation.Interfaces;
+using EveryDay.Calc.Webcalc.Repository;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -15,16 +17,27 @@ namespace EveryDay.Calc.Webcalc.Models
         public OperationResult()
         {
             OperationList = new List<SelectListItem>();
-            FavoriteOperations = new List<string>();
+            FavoriteOperations = new List<KeyValuePair<long, string>>();
+        }
+
+        public OperationResult(IEnumerable<Operation> operations, IEnumerable<long> tops)
+        {
+            SetViewModel(operations, tops);
+        }
+
+        public void SetViewModel(IEnumerable<Operation> operations, IEnumerable<long> tops)
+        {
+            OperationList = operations.Select(o => new SelectListItem() { Text = o.Name, Value = o.Id.ToString(), Selected = false });
+            FavoriteOperations = operations.Where(o => tops.Contains(o.Id)).Select(o => new KeyValuePair<long, string>(o.Id, o.Name));
         }
 
         [DisplayName("Операция")]
         [Required(ErrorMessage = "Выбери операцию, бро")]
-        public string Operation { get; set; }
+        public long Operation { get; set; }
 
         public IEnumerable<SelectListItem> OperationList { get; set; }
 
-        public IEnumerable<string> FavoriteOperations { get; set; }
+        public IEnumerable<KeyValuePair<long, string>> FavoriteOperations { get; set; }
 
         [DisplayName("Входные данные")]
         [Required(ErrorMessage = "Ввведи данные")]
@@ -34,10 +47,9 @@ namespace EveryDay.Calc.Webcalc.Models
 
         public DateTime ExecutionDate { get; set; }
 
-        [ReadOnly(true)]
         public double? Result { get; set; }
 
         [ReadOnly(false)]
-        public int ExecutionTime { get; set; }
+        public long ExecutionTime { get; set; }
     }
 }

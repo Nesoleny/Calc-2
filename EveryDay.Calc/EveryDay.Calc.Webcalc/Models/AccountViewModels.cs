@@ -50,7 +50,6 @@ namespace EveryDay.Calc.Webcalc.Models
     {
         [Required]
         [Display(Name = "Email")]
-        [EmailAddress]
         public string Email { get; set; }
 
         [Required]
@@ -65,7 +64,6 @@ namespace EveryDay.Calc.Webcalc.Models
     public class RegisterViewModel
     {
         [Required]
-        [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
