@@ -1,8 +1,9 @@
 ﻿using EveryDay.Calc.Calculation.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace EveryDay.Calc.Webcalc.Models
 {
@@ -11,12 +12,22 @@ namespace EveryDay.Calc.Webcalc.Models
     /// </summary>
     public class OperationResult
     {
+        public OperationResult()
+        {
+            OperationList = new List<SelectListItem>();
+            FavoriteOperations = new List<string>();
+        }
+
         [DisplayName("Операция")]
         [Required(ErrorMessage = "Выбери операцию, бро")]
         public string Operation { get; set; }
 
+        public IEnumerable<SelectListItem> OperationList { get; set; }
+
+        public IEnumerable<string> FavoriteOperations { get; set; }
+
         [DisplayName("Входные данные")]
-        [Required(ErrorMessage = "Введи данные")]
+        [Required(ErrorMessage = "Ввведи данные")]
         public double[] Inputs { get; set; }
 
         public bool IsEasy { get; set; }

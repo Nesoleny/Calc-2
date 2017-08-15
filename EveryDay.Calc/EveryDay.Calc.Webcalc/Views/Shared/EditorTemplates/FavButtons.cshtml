@@ -1,0 +1,16 @@
+﻿@model IEnumerable<string>
+@{
+    ViewBag.Title = "FavButtons";
+}
+@foreach (var item in Model)
+{
+    <input type="button" class="btn btn-link" name="favOper" value="@(item)" onclick="selectFavOperation(this)"/>
+}
+<input type="hidden" name="favOperation" value="" />
+
+<script type="text/javascript">
+    function selectFavOperation(button) {
+        $("[name=favOperation]").val($(button).val());
+        $('[name=Operation]').val($(button).val());
+    }
+</script>

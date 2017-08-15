@@ -1,23 +1,32 @@
 ﻿using EveryDay.Calc.AppCalc;
 using EveryDay.Calc.Calculation;
+using EveryDay.Calc.Calculation.Interfaces;
 using EveryDay.Calc.Webcalc.Models;
+using EveryDay.Calc.Webcalc.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using EveryDay.Calc.Calculation.Interfaces;
-using System.Reflection;
 
 namespace EveryDay.Calc.Webcalc.Controllers
 {
     public class CalcController : Controller
     {
+        private IRepository<Operation> OpRepository { get; set; }
 
         private Calculator Calculator { get; set; }
 
+        private IEnumerable<Operation> Operations { get; set; }
+
         public CalcController()
         {
+            //var extensionPath = Server.MapPath("~/App_Data/Extensions");
+            // Operations = Helper.LoadOperations();
+
+            OpRepository = new OperationRepository();
+
+            Operations = OpRepository.GetAll();
         }
 
         [HttpGet]
@@ -25,64 +34,37 @@ namespace EveryDay.Calc.Webcalc.Controllers
         {
             var model = new OperationResult();
             model.Operation = operation;
-            ViewBag.operations = LoadOperations().ToArray();
-            model.Inputs = new double[] { 12, 6, 9 };
+            model.Inputs = new double[] { 12, 9 };
+
+            var favOpers = Operations.Where(o => o.Name.Length % 2 == 0).Take(1);
+
+            model.OperationList = Operations.Select(o => new SelectListItem() { Text = o.Name, Value = o.Name, Selected = false });
+            model.FavoriteOperations = favOpers.Select(o => o.Name);
+
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Index(OperationResult model, string inputs)
+        public ActionResult Index(OperationResult model, string inputs, string favOperation)
         {
             if (Calculator == null)
             {
-                var extensionPath = Server.MapPath("~/App_Data/Extensions");
-                var operations = Helper.LoadOperations();
-                Calculator = new Calculator(operations);
+                Calculator = new Calculator(Helper.LoadOperations());
             }
 
-            ViewBag.operations = LoadOperations().ToArray();
+            var operation = !string.IsNullOrWhiteSpace(favOperation) ? favOperation : model.Operation;
+
+            var favOpers = Operations.Where(o => o.Name.Length % 2 == 0).Take(1);
+
+            model.OperationList = Operations.Select(o => new SelectListItem() { Text = o.Name, Value = o.Name, Selected = o.Name == model.Operation });
+            model.FavoriteOperations = favOpers.Select(o => o.Name);
 
             model.ExecutionDate = DateTime.Now;
             model.Inputs = inputs.Split(' ').Select(Helper.Str2Double).ToArray();
 
-            model.Result = Calculator.Calc(model.Operation, model.Inputs);
+            model.Result = Calculator.Calc(operation, model.Inputs);
 
             return View(model);
-        }
-
-        public static IEnumerable<string> LoadOperations()
-        {
-            var opers = new List<string>();
-
-            var typeOperation = typeof(IOperation);
-
-            // загружаем сборку из файла
-            var assembly = Assembly.GetAssembly(typeOperation);
-            // получаем типы/классы/интерфейсы из сброрки
-            var types = assembly.GetTypes();
-
-            // перебираем типы
-            foreach (var type in types)
-            {
-                if (type.IsAbstract || type.IsInterface)
-                    continue;
-
-                var interfaces = type.GetInterfaces().Select(i => i.FullName);
-                // если тип реализует наш интерфейс 
-                if (interfaces.Contains(typeOperation.FullName))
-                {
-                    // пытаемся создать экземпляр
-                    var instance = Activator.CreateInstance(type) as IOperation;
-                    if (instance != null)
-                    {
-                        // добавляем в список операций
-                        opers.Add(instance.Name);
-                    }
-                }
-            }
-
-
-            return opers;
         }
 
     }
