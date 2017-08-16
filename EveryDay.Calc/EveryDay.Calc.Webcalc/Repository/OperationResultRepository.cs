@@ -3,6 +3,7 @@ using System.Linq;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EveryDay.Calc.Webcalc.Repository
 {
@@ -93,6 +94,7 @@ order by Count desc";
         }
     }
 
+    [Table("OperationResult")]
     public class OperResult
     {
         public long Id { get; set; }
@@ -110,5 +112,9 @@ order by Count desc";
         public string Error { get; set; }
 
         public long UserId { get; set; }
+
+        public virtual User User { get; set; }
+
+        public virtual Operation Operation { get; set; }
     }
 }

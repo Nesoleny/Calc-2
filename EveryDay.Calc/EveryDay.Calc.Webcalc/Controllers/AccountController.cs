@@ -11,25 +11,21 @@ using Microsoft.Owin.Security;
 using EveryDay.Calc.Webcalc.Models;
 using EveryDay.Calc.Webcalc.Repository;
 using System.Web.Security;
-using EveryDay.Calc.Webcalc.EntitiF;
 
 namespace EveryDay.Calc.Webcalc.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private EFUserRepository userRepository;
+        private IUserRepository userRepository;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, EFUserRepository userRepository)
+        public AccountController(IUserRepository userRepository)
         {
-            UserManager = userManager;
-            SignInManager = signInManager;
             this.userRepository = userRepository;
         }
 

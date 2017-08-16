@@ -1,37 +1,51 @@
-﻿using System;
+﻿using EveryDay.Calc.Webcalc.Repository;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
-using EveryDay.Calc.Webcalc.Repository;
 
 namespace EveryDay.Calc.Webcalc.EntitiF
 {
     public class EFUserRepository : IUserRepository
     {
+        public User GetByName(string login)
+        {
+            using (var db = new CalcContext())
+            {
+                var user = db.Users.FirstOrDefault(u => u.Login == login);
+
+                db.Entry(user).Collection(u => u.OperResults).Load();
+
+                return user;
+
+            }
+        }
+
         public bool Check(string login, string password)
         {
-            User result;
             using (var dbContext = new CalcContext())
             {
-                result = dbContext.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
+                return dbContext.Users.Count(u => u.Login == login && u.Password == password) == 1;
             }
-
-            return result != null;
         }
 
         public void Create(User obj)
         {
-            using (var dbContext = new CalcContext())
-            {
-                dbContext.Users.Add(obj);
-            }
+            throw new NotImplementedException();
         }
 
         public void Delete(long Id)
         {
-            using (var dbContext = new CalcContext())
+            using (CalcContext db = new CalcContext())
             {
-                dbContext.Users.Remove(dbContext.Users.Find(Id));
+                User delUser = db.Users.FirstOrDefault(c => c.Id == Id);
+                if (delUser != null)
+                {
+                    delUser.Status = UserStatus.Dead;
+                }
+                db.SaveChanges();
             }
         }
 
@@ -39,25 +53,36 @@ namespace EveryDay.Calc.Webcalc.EntitiF
         {
             using (var dbContext = new CalcContext())
             {
-                return dbContext.Users.ToList();
+                return dbContext.Users.Where(u => u.Status == UserStatus.Active);
+            }
+        }
+
+        public IEnumerable<User> Find(Expression<Func<User, bool>> filter)
+        {
+            using (var dbContext = new CalcContext())
+            {
+                return dbContext.Users
+                    .Where(u => u.Status == UserStatus.Active)
+                    .Where(filter)
+                    .ToList();
             }
         }
 
         public User Read(long Id)
         {
-            using (var dbContext = new CalcContext())
+            using (var db = new CalcContext())
             {
-                return dbContext.Users.Find(Id);
+                return db.Users.FirstOrDefault(u => u.Id == Id);
             }
         }
 
         public void Update(User obj)
         {
-            using (var dbContext = new CalcContext())
+            using (var db = new CalcContext())
             {
-                //dbContext.Users. не работает
+                db.Entry(obj).State = EntityState.Modified;
+                db.SaveChanges();
             }
         }
-
     }
 }

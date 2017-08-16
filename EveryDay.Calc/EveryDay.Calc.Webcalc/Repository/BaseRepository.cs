@@ -9,7 +9,7 @@ namespace EveryDay.Calc.Webcalc.Repository
 {
     public class BaseRepository<T> : IRepository<T> where T : class
     {
-        protected string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=F:\Calc\EveryDay.Calc\EveryDay.Calc.Webcalc\App_Data\calc.mdf;Integrated Security=True";
+        protected string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\education\Calc-2\EveryDay.Calc\EveryDay.Calc.Webcalc\App_Data\calc.mdf;Integrated Security=True";
 
         private string TableName { get; set; }
 

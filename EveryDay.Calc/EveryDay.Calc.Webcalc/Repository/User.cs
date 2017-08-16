@@ -9,6 +9,11 @@ namespace EveryDay.Calc.Webcalc.Repository
     [Table("User")]
     public class User
     {
+        public User()
+        {
+            OperResults = new List<OperResult>();
+        }
+
         public long Id { get; set; }
 
         public string Login { get; set; }
@@ -18,7 +23,10 @@ namespace EveryDay.Calc.Webcalc.Repository
         public string FIO { get; set; }
 
         public UserStatus Status { get; set; }
-    }
+
+        public virtual ICollection<OperResult> OperResults { get; set; }
+
+    } 
 
     public enum UserStatus
     {

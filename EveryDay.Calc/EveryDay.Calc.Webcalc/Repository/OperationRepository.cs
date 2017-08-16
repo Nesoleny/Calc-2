@@ -1,5 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.SqlClient;
+using System.Linq.Expressions;
 
 namespace EveryDay.Calc.Webcalc.Repository
 {
@@ -8,6 +11,12 @@ namespace EveryDay.Calc.Webcalc.Repository
         public OperationRepository() 
             : base("Operation", new[] { "Name", "Description", "IsDeleted" })
         {
+          
+        }
+
+        public IEnumerable<Operation> Find(Expression<Func<Operation, bool>> filter)
+        {
+            throw new NotImplementedException();
         }
 
         public override Operation ReadSingleRow(SqlDataReader record)
@@ -30,6 +39,11 @@ namespace EveryDay.Calc.Webcalc.Repository
     [Table("Operation")]
     public class Operation
     {
+        public Operation()
+        {
+            OperResults = new List<OperResult>();
+        }
+
         public long Id { get; set; }
 
         public string Name { get; set; }
@@ -37,5 +51,8 @@ namespace EveryDay.Calc.Webcalc.Repository
         public string Description { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public virtual ICollection<OperResult> OperResults { get; set; }
+
     }
 }

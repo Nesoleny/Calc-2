@@ -180,8 +180,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="EntitiF\CalcContext.cs" />
-    <Compile Include="EntitiF\EFOperationRepository.cs" />
     <Compile Include="EntitiF\EFUserRepository.cs" />
+    <Compile Include="EntitiF\EFOperationRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -264,6 +264,9 @@
     <Content Include="Views\Calc\View.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DoubleSet.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\FavButtons.cshtml" />
+    <Content Include="Views\Calc\History.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\User.cshtml" />
+    <Content Include="Views\Calc\OperationHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Extensions\" />

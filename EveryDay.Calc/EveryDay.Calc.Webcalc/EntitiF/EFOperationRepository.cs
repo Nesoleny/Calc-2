@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Linq.Expressions;
 
 namespace EveryDay.Calc.Webcalc.EntitiF
 {
@@ -18,6 +19,16 @@ namespace EveryDay.Calc.Webcalc.EntitiF
             throw new NotImplementedException();
         }
 
+        public IEnumerable<Operation> Find(Expression<Func<Operation, bool>> filter)
+        {
+            using (var dbContext = new CalcContext())
+            {
+                return dbContext.Operations
+                    .Where(filter)
+                    .ToList();
+            }
+        }
+
         public IEnumerable<Operation> GetAll()
         {
             using (var dbContext = new CalcContext())
@@ -28,7 +39,14 @@ namespace EveryDay.Calc.Webcalc.EntitiF
 
         public Operation Read(long Id)
         {
-            throw new NotImplementedException();
+            using (var db = new CalcContext())
+            {
+                var operation = db.Operations.FirstOrDefault(u => u.Id == Id);
+
+                db.Entry(operation).Collection(u => u.OperResults).Load();
+
+                return operation;
+            }
         }
 
         public void Update(Operation obj)

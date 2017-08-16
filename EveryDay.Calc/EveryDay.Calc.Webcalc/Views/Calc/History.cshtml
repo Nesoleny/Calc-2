@@ -1,0 +1,57 @@
+﻿@model IEnumerable<EveryDay.Calc.Webcalc.Repository.OperResult>
+
+@{
+    ViewBag.Title = "History";
+}
+
+<h2>History</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OperationId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Inputs)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExecutionDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExecutionTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Result)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Error)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            <a href="@Url.Action("OperationHistory", "Calc" , new { id=Html.DisplayFor(modelItem => item.OperationId) })" title='item.Title'>@Html.DisplayFor(modelItem => item.OperationId)</a>
+</td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Inputs)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExecutionDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExecutionTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Result)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Error)
+        </td>
+    </tr>  
+}
+
+</table>

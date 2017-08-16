@@ -29,9 +29,15 @@ namespace EveryDay.Calc.Webcalc.Controllers
 
         private IEnumerable<long> TopOperationIds { get; set; }
 
+        private User GetCurrentUser()
+        {
+            return userRepository.GetByName(User.Identity.Name);
+        }
+
         #endregion
 
-        public CalcController(IOperationRepository OpRepository, 
+
+        public CalcController(IOperationRepository OpRepository,
             IOperationResultRepository OperResultRepository,
             IUserRepository userRepository)
         {
@@ -103,7 +109,7 @@ namespace EveryDay.Calc.Webcalc.Controllers
                 ExecutionTime = model.ExecutionTime,
                 Result = model.Result,
                 Error = error,
-                UserId = 1 // временно
+                UserId = GetCurrentUser().Id
             };
 
             OperResultRepository.Create(opr);
@@ -111,6 +117,37 @@ namespace EveryDay.Calc.Webcalc.Controllers
             #endregion
 
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult History()
+        {
+            var users = userRepository.Find(u => u.Login == "");
+
+            var count = users.Count();
+
+            var user = GetCurrentUser();
+
+
+            
+            return View(user.OperResults);
+        }
+
+        [HttpGet]
+        public ActionResult OperationHistory(long id=1)
+        {
+            //var operation = OpRepository.Read(1);
+
+            return View(OpRepository.Read(id).OperResults);
+
+            //var count = users.Count();
+
+            //var user = GetCurrentUser();
+
+
+
+            //return View(user.OperResults);
+
         }
 
     }
